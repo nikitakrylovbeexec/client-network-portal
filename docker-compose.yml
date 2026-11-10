@@ -1,0 +1,22 @@
+services:
+  client-network-portal:
+    build: .
+    container_name: client-network-portal-app
+    restart: unless-stopped
+    ports:
+      - "172.17.0.1:5090:5000"
+    env_file: .env
+    environment:
+      ZOHO_DC: eu
+      CACHE_TTL_MIN: "60"
+      MAX_PREFETCH: "250"
+      DAILY_ZOHO_BUDGET: "3000"
+      SHOW_TOUCH_COMMENTS: "0"
+    volumes:
+      - portal_data:/app/data
+    networks: [client_network_portal_net]
+networks:
+  client_network_portal_net:
+    driver: bridge
+volumes:
+  portal_data:
